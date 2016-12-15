@@ -53,6 +53,10 @@ public class ConfigPanel extends JPanel {
             menuFilmBtn.addActionListener(menuFilmBtnHandler);
             MenuShowBtnHandler menuShowBtnHandler = new MenuShowBtnHandler();
             menuShowBtn.addActionListener(menuShowBtnHandler);
+            MenuExtraBtnHandler extraBtnHandler = new MenuExtraBtnHandler();
+            menuExtraBtn.addActionListener(extraBtnHandler);
+            MenuConfigBtnHandler configBtnHandler = new MenuConfigBtnHandler();
+            menuConfigBtn.addActionListener(configBtnHandler);
             
         
             //Setting background color for buttons
@@ -170,6 +174,23 @@ public class ConfigPanel extends JPanel {
         public void actionPerformed(ActionEvent e)
         {
             new ShowGUI();
+            SwingUtilities.windowForComponent(thisPanel).dispose();
+        }
+    }
+                class MenuExtraBtnHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new ExtraGUI();
+            SwingUtilities.windowForComponent(thisPanel).dispose();
+        }
+    }
+                        
+        class MenuConfigBtnHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new ConfigGUI();
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
