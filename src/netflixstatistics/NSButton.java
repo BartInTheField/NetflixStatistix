@@ -2,12 +2,13 @@ package netflixstatistics;
 
 // @author Bart
 
+import com.sun.glass.ui.Cursor;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 
 
-public class NSButton extends JButton{
+public class NSButton extends JButton {
     
     private static String OS = System.getProperty("os.name").toLowerCase();
 

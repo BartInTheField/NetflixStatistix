@@ -1,6 +1,6 @@
 package netflixstatistics;
 
-// @author Bart
+// @AUTHOR Felix
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,18 +12,18 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 
-public class DeleteProfilePanel extends JPanel {
+public class EditSeenPanel extends JPanel {
     private JPanel menu, content;
     private BannerPanel banner;
     private NSButton menuAccBtn, menuFilmBtn, menuShowBtn, menuExtraBtn, menuConfigBtn;
-    private JTextField nameField, birthdayField; 
-    private JLabel subNumber, selectName, name, birthday; 
+    private JTextField percentageField;
+    private JLabel id, subNumber, name, program, percentage; 
     private NSButton cancel, confirm; 
-    private JComboBox subNumberBox, selectNameBox;
+    private JComboBox idBox, subNumberBox, nameBox, programBox;
     
     private JPanel thisPanel;
             
-    public DeleteProfilePanel()
+    public EditSeenPanel()
     {
         thisPanel = this;
         
@@ -78,48 +78,49 @@ public class DeleteProfilePanel extends JPanel {
         content.setBorder(border);
             
             //setting GridLayout 
-            content.setLayout(new GridLayout(5,2,20,20));
+            content.setLayout(new GridLayout(6,2,20,12));
             
             //Initializing labels
+            id = new JLabel("ID: ");
             subNumber = new JLabel("Subscriber number: ");
-            selectName = new JLabel("Name: ");
-            name = new JLabel("Name:");
-            birthday = new JLabel("Birthday: ");
+            name = new JLabel("Name: ");
+            program = new JLabel("Program: ");
+            percentage = new JLabel("Percentage: ");
             
             //Setting text white
+            id.setForeground(Color.WHITE);
             subNumber.setForeground(Color.WHITE);
-            selectName.setForeground(Color.WHITE);
+            program.setForeground(Color.WHITE);
             name.setForeground(Color.WHITE);
-            birthday.setForeground(Color.WHITE);
+            percentage.setForeground(Color.WHITE);
             
             //Initializing combobox
+            idBox = new JComboBox();
             subNumberBox = new JComboBox();
-            selectNameBox = new JComboBox();
+            nameBox = new JComboBox();
+            programBox = new JComboBox();
             
             //Initializing textfields
-            nameField = new JTextField(20);
-            birthdayField = new JTextField(20);
-            
-            //Setting editable false
-            nameField.setEditable(false);
-            birthdayField.setEditable(false);
+            percentageField = new JTextField(20);
             
             //Initializing buttons
             cancel = new NSButton("Cancel");
-            confirm = new NSButton("Delete profile");
+            confirm = new NSButton("Edit seen");
      
             CancelBtnHandler cancelBtnHandler = new CancelBtnHandler();
             cancel.addActionListener(cancelBtnHandler);
             
             //Adding buttons in contentpanel
+            content.add(id);
+            content.add(idBox);
             content.add(subNumber);
             content.add(subNumberBox);
-            content.add(selectName);
-            content.add(selectNameBox);
             content.add(name);
-            content.add(nameField); 
-            content.add(birthday);
-            content.add(birthdayField);
+            content.add(nameBox);
+            content.add(program);
+            content.add(programBox); 
+            content.add(percentage);
+            content.add(percentageField);
             content.add(cancel);
             content.add(confirm);
             

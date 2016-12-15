@@ -16,8 +16,8 @@ public class EditAccPanel extends JPanel {
     private JPanel menu, content;
     private BannerPanel banner;
     private NSButton menuAccBtn, menuFilmBtn, menuShowBtn, menuExtraBtn, menuConfigBtn;
-    private JTextField nameField, addressField, cityField; 
-    private JLabel subNumber, name, address, city; 
+    private JTextField nameField, streetField, postalCodeField, streetNumberField, cityField; 
+    private JLabel subNumber, name, street, postalCode, streetNumber, city; 
     private NSButton cancel, confirm; 
     private JComboBox subNumberBox;
     
@@ -44,7 +44,7 @@ public class EditAccPanel extends JPanel {
             menuFilmBtn = new NSButton("Film");
             menuShowBtn = new NSButton("Show");
             menuExtraBtn = new NSButton("Extra");
-            menuConfigBtn= new NSButton("Config");
+            menuConfigBtn = new NSButton("Config");
             
             //Adding handlers to buttons
             MenuAccBtnHandler menuAccBtnHandler = new MenuAccBtnHandler();
@@ -78,18 +78,22 @@ public class EditAccPanel extends JPanel {
         content.setBorder(border);
             
             //setting GridLayout 
-            content.setLayout(new GridLayout(5,2,20,20));
+            content.setLayout(new GridLayout(7,2,20,6));
             
             //Initializing labels
-            subNumber = new JLabel("Subscribernumber: ");
+            subNumber = new JLabel("Subscriber number: ");
             name = new JLabel("Name: ");
-            address = new JLabel("Address: ");
+            street = new JLabel("Street: ");
+            postalCode = new JLabel("Postal code: ");
+            streetNumber = new JLabel("Street number: ");
             city = new JLabel("City: ");
             
             //Setting text white
             subNumber.setForeground(Color.WHITE);
             name.setForeground(Color.WHITE);
-            address.setForeground(Color.WHITE);
+            street.setForeground(Color.WHITE);
+            postalCode.setForeground(Color.WHITE);
+            streetNumber.setForeground(Color.WHITE);
             city.setForeground(Color.WHITE);
             
             //Initializing combobox
@@ -97,7 +101,9 @@ public class EditAccPanel extends JPanel {
             
             //Initializing textfields
             nameField = new JTextField(20);
-            addressField = new JTextField(20);
+            streetField = new JTextField(20);
+            postalCodeField = new JTextField(20);
+            streetNumberField = new JTextField(20);
             cityField = new JTextField(20);
             
             
@@ -114,8 +120,12 @@ public class EditAccPanel extends JPanel {
             content.add(subNumberBox);
             content.add(name);
             content.add(nameField); 
-            content.add(address);
-            content.add(addressField);
+            content.add(street);
+            content.add(streetField);
+            content.add(postalCode);
+            content.add(postalCodeField);
+            content.add(streetNumber);
+            content.add(streetNumberField);
             content.add(city);
             content.add(cityField);
             content.add(cancel);

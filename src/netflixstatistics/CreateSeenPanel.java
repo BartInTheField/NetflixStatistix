@@ -12,18 +12,18 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 
-public class CreateWatchingPanel extends JPanel {
+public class CreateSeenPanel extends JPanel {
     private JPanel menu, content;
     private BannerPanel banner;
     private NSButton menuAccBtn, menuFilmBtn, menuShowBtn, menuExtraBtn, menuConfigBtn;
     private JTextField percentageField;
-    private JLabel subNumber, name, program, percentage; 
+    private JLabel id, subNumber, name, program, percentage; 
     private NSButton cancel, confirm; 
-    private JComboBox subNumberBox, nameBox, programBox;
+    private JComboBox idBox, subNumberBox, nameBox, programBox;
     
     private JPanel thisPanel;
             
-    public CreateWatchingPanel()
+    public CreateSeenPanel()
     {
         thisPanel = this;
         
@@ -78,21 +78,24 @@ public class CreateWatchingPanel extends JPanel {
         content.setBorder(border);
             
             //setting GridLayout 
-            content.setLayout(new GridLayout(5,2,20,20));
+            content.setLayout(new GridLayout(6,2,20,12));
             
             //Initializing labels
-            subNumber = new JLabel("Subscribernumber: ");
+            id = new JLabel("ID: ");
+            subNumber = new JLabel("Subscriber number: ");
             name = new JLabel("Name: ");
             program = new JLabel("Program: ");
             percentage = new JLabel("Percentage: ");
             
             //Setting text white
+            id.setForeground(Color.WHITE);
             subNumber.setForeground(Color.WHITE);
             program.setForeground(Color.WHITE);
             name.setForeground(Color.WHITE);
             percentage.setForeground(Color.WHITE);
             
             //Initializing combobox
+            idBox = new JComboBox();
             subNumberBox = new JComboBox();
             nameBox = new JComboBox();
             programBox = new JComboBox();
@@ -102,12 +105,14 @@ public class CreateWatchingPanel extends JPanel {
             
             //Initializing buttons
             cancel = new NSButton("Cancel");
-            confirm = new NSButton("Create watching");
+            confirm = new NSButton("Create seen");
      
             CancelBtnHandler cancelBtnHandler = new CancelBtnHandler();
             cancel.addActionListener(cancelBtnHandler);
             
             //Adding buttons in contentpanel
+            content.add(id);
+            content.add(idBox);
             content.add(subNumber);
             content.add(subNumberBox);
             content.add(name);

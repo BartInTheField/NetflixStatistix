@@ -16,10 +16,10 @@ public class ConfigPanel extends JPanel {
     private JPanel menu, content;
     private BannerPanel banner;
     private NSButton menuAccBtn, menuFilmBtn, menuShowBtn, menuExtraBtn, menuConfigBtn;
-    private NSButton createAcc, createProfile, createWatching,
-            editAcc, editProfile, editWatching,
-            deleteAcc, deleteProfile, deleteWatching;
-    private JLabel account, profile, watching;
+    private NSButton createAcc, createProfile, createSeen,
+            editAcc, editProfile, editSeen,
+            deleteAcc, deleteProfile, deleteSeen;
+    private JLabel account, profile, seen;
     
     private JPanel thisPanel;
             
@@ -87,62 +87,66 @@ public class ConfigPanel extends JPanel {
             //Initializing labels
             account = new JLabel("Account");
             profile = new JLabel("Profile");
-            watching = new JLabel("Watching");
+            seen = new JLabel("Seen");
             
             //Setting color of labels to white
             account.setForeground(Color.WHITE);
             profile.setForeground(Color.WHITE);
-            watching.setForeground(Color.WHITE);
+            seen.setForeground(Color.WHITE);
             
             //Setting alignment center
             account.setHorizontalAlignment(SwingConstants.CENTER);
             profile.setHorizontalAlignment(SwingConstants.CENTER);
-            watching.setHorizontalAlignment(SwingConstants.CENTER);
+            seen.setHorizontalAlignment(SwingConstants.CENTER);
             
             //Initializing buttons
             createAcc = new NSButton("Create Account");
             createProfile = new NSButton("Create Profile");
-            createWatching = new NSButton("Create Watching");
+            createSeen = new NSButton("Create Seen");
             
             editAcc = new NSButton("Edit Account");
             editProfile = new NSButton("Edit Profile");
-            editWatching = new NSButton("Edit Watching");
+            editSeen = new NSButton("Edit Seen");
             
             deleteAcc = new NSButton("Delete Account");
             deleteProfile = new NSButton("Delete Profile");
-            deleteWatching = new NSButton("Delete Watching");
+            deleteSeen = new NSButton("Delete Seen");
 
             //Handlers for buttons
             CreateAccBtnHandler createAccBtnHandler = new CreateAccBtnHandler();
             createAcc.addActionListener(createAccBtnHandler);
             CreateProfileBtnHandler createProfileBtnHandler = new CreateProfileBtnHandler();
             createProfile.addActionListener(createProfileBtnHandler);
-            CreateWatchingBtnHandler createWatchingBtnHandler = new CreateWatchingBtnHandler();
-            createWatching.addActionListener(createWatchingBtnHandler);
+            CreateSeenBtnHandler createSeenBtnHandler = new CreateSeenBtnHandler();
+            createSeen.addActionListener(createSeenBtnHandler);
             
             EditAccBtnHandler editAccBtnHandler = new EditAccBtnHandler();
             editAcc.addActionListener(editAccBtnHandler);
             EditProfileBtnHandler editProfileBtnHandler = new EditProfileBtnHandler();
             editProfile.addActionListener(editProfileBtnHandler);
+            EditSeenBtnHandler editSeenBtnHandler = new EditSeenBtnHandler();
+            editSeen.addActionListener(editSeenBtnHandler);
             
             DeleteAccBtnHandler deleteAccBtnHandler = new DeleteAccBtnHandler();
             deleteAcc.addActionListener(deleteAccBtnHandler);
             DeleteProfileBtnHandler deleteProfileBtnHandler = new DeleteProfileBtnHandler();
             deleteProfile.addActionListener(deleteProfileBtnHandler);
+            DeleteSeenBtnHandler deleteSeenBtnHandler = new DeleteSeenBtnHandler();
+            deleteSeen.addActionListener(deleteSeenBtnHandler);
      
             //Adding buttons in contentpanel
             content.add(account);
             content.add(profile);
-            content.add(watching);
+            content.add(seen);
             content.add(createAcc);
             content.add(createProfile);
-            content.add(createWatching);
+            content.add(createSeen);
             content.add(editAcc); 
             content.add(editProfile);
-            content.add(editWatching);
+            content.add(editSeen);
             content.add(deleteAcc);
             content.add(deleteProfile);
-            content.add(deleteWatching);
+            content.add(deleteSeen);
         
         //Adding panels to Accountpanel
         add(banner, BorderLayout.NORTH);
@@ -215,12 +219,12 @@ public class ConfigPanel extends JPanel {
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
-              class CreateWatchingBtnHandler implements ActionListener
+              class CreateSeenBtnHandler implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            new CreateWatchingGUI();
+            new CreateSeenGUI();
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
@@ -235,12 +239,22 @@ public class ConfigPanel extends JPanel {
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
-              class EditProfileBtnHandler implements ActionListener
+        class EditProfileBtnHandler implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e)
         {
             new EditProfileGUI();
+            SwingUtilities.windowForComponent(thisPanel).dispose();
+        }
+    }
+        
+        class EditSeenBtnHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            new EditSeenGUI();
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
@@ -263,5 +277,15 @@ public class ConfigPanel extends JPanel {
             new DeleteProfileGUI();
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
-    }            
+    } 
+           
+        class DeleteSeenBtnHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            new DeleteSeenGUI();
+            SwingUtilities.windowForComponent(thisPanel).dispose();
+        }
+    }
 }

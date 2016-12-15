@@ -54,8 +54,8 @@ class ExtraPanel extends JPanel {
             menuConfigBtn.addActionListener(configBtnHandler);
             
             //Initializing labels
-            accountsLb = new JLabel("Accounts with 1 profile");
-            longestMovieLb = new JLabel("Movie with longest time for age under 16");
+            accountsLb = new JLabel("Accounts with 1 profile:");
+            longestMovieLb = new JLabel("Movie with longest time for age under 16:");
             
             //Initializing textarea & scrollpanel
             accounts = new JTextArea();

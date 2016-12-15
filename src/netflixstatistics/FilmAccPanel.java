@@ -55,7 +55,7 @@ class FilmAccPanel extends JPanel {
             
             //Initializing labels
             profileNameLb = new JLabel("Jesse Witje");
-            filmsWatchedLb = new JLabel("Films Watched:");
+            filmsWatchedLb = new JLabel("Films watched:");
             
             //Initializing textarea & scrollpanel
             films = new JTextArea();

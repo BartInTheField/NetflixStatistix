@@ -78,10 +78,10 @@ public class CreateProfilePanel extends JPanel {
         content.setBorder(border);
             
             //setting GridLayout 
-            content.setLayout(new GridLayout(4,2,20,20));
+            content.setLayout(new GridLayout(4,2,20,32));
             
             //Initializing labels
-            subNumber = new JLabel("Subscribernumber: ");
+            subNumber = new JLabel("Subscriber number: ");
             name = new JLabel("Name: ");
             birthday = new JLabel("Birthday: ");
             

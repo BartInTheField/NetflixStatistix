@@ -16,8 +16,8 @@ public class CreateAccPanel extends JPanel {
     private JPanel menu, content;
     private BannerPanel banner;
     private NSButton menuAccBtn, menuFilmBtn, menuShowBtn, menuExtraBtn, menuConfigBtn;
-    private JTextField subNumberField, nameField, addressField, cityField; 
-    private JLabel subNumber, name, address, city; 
+    private JTextField subNumberField, nameField, streetField, postalCodeField, streetNumberField, cityField; 
+    private JLabel subNumber, name, street, postalCode, streetNumber, city; 
     private NSButton cancel, confirm; 
     
     private JPanel thisPanel;
@@ -77,24 +77,30 @@ public class CreateAccPanel extends JPanel {
         content.setBorder(border);
             
             //setting GridLayout 
-            content.setLayout(new GridLayout(5,2,20,20));
+            content.setLayout(new GridLayout(7,2,20,6));
             
             //Initializing labels
-            subNumber = new JLabel("Subscribernumber: ");
+            subNumber = new JLabel("Subscriber number: ");
             name = new JLabel("Name: ");
-            address = new JLabel("Address: ");
+            street = new JLabel("Street: ");
+            postalCode = new JLabel("Postal code: ");
+            streetNumber = new JLabel("Street number: ");
             city = new JLabel("City: ");
             
             //Setting text white
             subNumber.setForeground(Color.WHITE);
             name.setForeground(Color.WHITE);
-            address.setForeground(Color.WHITE);
+            street.setForeground(Color.WHITE);
+            postalCode.setForeground(Color.WHITE);
+            streetNumber.setForeground(Color.WHITE);
             city.setForeground(Color.WHITE);
             
             //Initializing textfields
             subNumberField = new JTextField(20);
             nameField = new JTextField(20);
-            addressField = new JTextField(20);
+            streetField = new JTextField(20);
+            postalCodeField = new JTextField(20);
+            streetNumberField = new JTextField(20);
             cityField = new JTextField(20);
             
             //Initializing buttons
@@ -109,8 +115,12 @@ public class CreateAccPanel extends JPanel {
             content.add(subNumberField);
             content.add(name);
             content.add(nameField); 
-            content.add(address);
-            content.add(addressField);
+            content.add(street);
+            content.add(streetField);
+            content.add(postalCode);
+            content.add(postalCodeField);
+            content.add(streetNumber);
+            content.add(streetNumberField);
             content.add(city);
             content.add(cityField);
             content.add(cancel);

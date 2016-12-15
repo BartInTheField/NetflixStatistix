@@ -81,8 +81,8 @@ public class EditProfilePanel extends JPanel {
             content.setLayout(new GridLayout(5,2,20,20));
             
             //Initializing labels
-            subNumber = new JLabel("Subscribernumber: ");
-            selectName = new JLabel("Select name: ");
+            subNumber = new JLabel("Subscriber number: ");
+            selectName = new JLabel("Name: ");
             name = new JLabel("Name:");
             birthday = new JLabel("Birthday: ");
             
