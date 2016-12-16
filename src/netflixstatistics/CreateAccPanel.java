@@ -16,14 +16,17 @@ public class CreateAccPanel extends JPanel {
     private JPanel menu, content;
     private BannerPanel banner;
     private NSButton menuAccBtn, menuFilmBtn, menuShowBtn, menuExtraBtn, menuConfigBtn;
-    private JTextField subNumberField, nameField, streetField, postalCodeField, streetNumberField, cityField; 
-    private JLabel subNumber, name, street, postalCode, streetNumber, city; 
+    private JTextField subNumberField, nameField, streetField, postalCodeField, streetNumberField, cityField ,birthdayField; 
+    private JLabel subNumber, name, street, postalCode, streetNumber, city, birthday; 
     private NSButton cancel, confirm; 
+    
+    private DBConnect database;
     
     private JPanel thisPanel;
             
     public CreateAccPanel()
     {
+        database = new DBConnect();
         thisPanel = this;
         
         //Setting layout for hole panel
@@ -77,7 +80,7 @@ public class CreateAccPanel extends JPanel {
         content.setBorder(border);
             
             //setting GridLayout 
-            content.setLayout(new GridLayout(7,2,20,6));
+            content.setLayout(new GridLayout(8,2,20,6));
             
             //Initializing labels
             subNumber = new JLabel("Subscriber number: ");
@@ -86,6 +89,7 @@ public class CreateAccPanel extends JPanel {
             postalCode = new JLabel("Postal code: ");
             streetNumber = new JLabel("Street number: ");
             city = new JLabel("City: ");
+            birthday = new JLabel("Birthday: ");
             
             //Setting text white
             subNumber.setForeground(Color.WHITE);
@@ -94,19 +98,25 @@ public class CreateAccPanel extends JPanel {
             postalCode.setForeground(Color.WHITE);
             streetNumber.setForeground(Color.WHITE);
             city.setForeground(Color.WHITE);
+            birthday.setForeground(Color.WHITE);
             
             //Initializing textfields
             subNumberField = new JTextField(20);
+            subNumberField.setEditable(false);
+            getNewAccID();
             nameField = new JTextField(20);
             streetField = new JTextField(20);
             postalCodeField = new JTextField(20);
             streetNumberField = new JTextField(20);
             cityField = new JTextField(20);
+            birthdayField = new JTextField(20);
             
             //Initializing buttons
             cancel = new NSButton("Cancel");
             confirm = new NSButton("Create account");
      
+            ConfirmBtnHandler confirmBtnHandler = new ConfirmBtnHandler();
+            confirm.addActionListener(confirmBtnHandler);
             CancelBtnHandler cancelBtnHandler = new CancelBtnHandler();
             cancel.addActionListener(cancelBtnHandler);
             
@@ -123,6 +133,8 @@ public class CreateAccPanel extends JPanel {
             content.add(streetNumberField);
             content.add(city);
             content.add(cityField);
+            content.add(birthday);
+            content.add(birthdayField);
             content.add(cancel);
             content.add(confirm);
             
@@ -169,6 +181,54 @@ public class CreateAccPanel extends JPanel {
         {
             new ConfigGUI();
             SwingUtilities.windowForComponent(thisPanel).dispose();
+        }
+    }
+        
+        //Database
+        public void getNewAccID()
+    {
+        try{
+            String theQuery = "SELECT MAX(SubscriberNumber) FROM `account`";
+            database.rs = database.st.executeQuery(theQuery);
+            if(database.rs.last())
+            {
+                database.rowcount = database.rs.getRow();
+                database.rs.beforeFirst();
+            }
+            while(database.rs.next()){
+                
+                if(database.rs.getString("MAX(SubscriberNumber)") != null)
+                {
+                    int i = Integer.parseInt(database.rs.getString("MAX(SubscriberNumber)"));
+                    i +=1;
+                    subNumberField.setText(""+i);
+                }
+                else
+                {
+                    subNumberField.setText("1");
+                }
+            }
+        }catch(Exception ex){
+            System.out.println("Error: " +ex);
+        }
+    }
+        
+        class ConfirmBtnHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            if(!nameField.getText().equals(""))
+            {
+                System.out.println("Create new account");
+                database.createData("account", "SubscriberNumber, Name, Street, PostalCode, StreetNumber, City, Birthday", 
+                                "'"+ subNumberField.getText() + "','"+nameField.getText() 
+                                + "','" + streetField.getText()+"','" + 
+                                postalCodeField.getText()+"','" + streetNumberField.getText()
+                                +"','" + cityField.getText()+"','" + birthdayField.getText()+"'");
+                new ConfigGUI();
+                SwingUtilities.windowForComponent(thisPanel).dispose();
+            }
         }
     }
 }
