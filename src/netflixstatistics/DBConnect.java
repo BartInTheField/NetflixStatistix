@@ -19,7 +19,7 @@ public class DBConnect {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/festivalplanner", "root", "");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/netflix_statistix", "root", "");
             st = con.createStatement();
             
         }catch  (Exception ex){
