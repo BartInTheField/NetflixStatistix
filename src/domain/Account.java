@@ -78,7 +78,4 @@ public class Account {
     public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
-    
-    
-    
 }
