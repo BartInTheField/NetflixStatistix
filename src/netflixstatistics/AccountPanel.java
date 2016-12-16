@@ -15,10 +15,13 @@ class AccountPanel extends JPanel {
     private final NSButton contentFilmBtn, contentShowBtn;
     private JComboBox contentAccountBox;
     
+    private DBConnect database;
+    
     private JPanel thisPanel;
             
     public AccountPanel() 
     {
+        database = new DBConnect();
         thisPanel = this;
         
         //Setting layout for hole panel
