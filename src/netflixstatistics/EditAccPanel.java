@@ -21,10 +21,12 @@ public class EditAccPanel extends JPanel {
     private NSButton cancel, confirm; 
     private JComboBox subNumberBox;
     
+    private DBConnect database;
     private JPanel thisPanel;
             
     public EditAccPanel()
     {
+        database = new DBConnect();
         thisPanel = this;
         
         //Setting layout for hole panel
@@ -114,6 +116,8 @@ public class EditAccPanel extends JPanel {
      
             CancelBtnHandler cancelBtnHandler = new CancelBtnHandler();
             cancel.addActionListener(cancelBtnHandler);
+//            EditBtnHandler = editBtnHandler = new EditBtnHandler();
+//            confirm.addActionListener(editBtnHandler);
             
             //Adding buttons in contentpanel
             content.add(subNumber);
@@ -176,6 +180,18 @@ public class EditAccPanel extends JPanel {
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
+//        class EditBtnHandler implements ActionListener
+//    {
+//        @Override
+//        public void actionPerformed (ActionEvent e)
+//        {
+//            if(!nameField.getText().equals("")) {
+//                System.out.println("Edit account");
+//                database.
+//                new ConfigGUI();
+//                SwingUtilities.windowForComponent(thisPanel).dispose();
+//        }
+//    }
 }
 
 

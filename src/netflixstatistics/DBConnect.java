@@ -28,13 +28,24 @@ public class DBConnect {
         }
     }
     
-       public void createData(String Table, String Attributes, String Value)
+       public void createData(String table, String attributes, String value)
     {
         try{
-            String query = "INSERT INTO "+Table+" ("+Attributes+") VALUES ("+Value+")";
+            String query = "INSERT INTO "+table+" ("+attributes+") VALUES ("+value+")";
             st.executeUpdate(query);
         }catch(Exception ex){
             System.out.println("Error: " +ex);
         }
     }
+//       public void editData (String table, String attributes, String newValue, int rowcount)
+//       {
+//           try {
+//               for(int i = 0; i < rowcount; i++) {
+//                   String query = "UPDATE "+table+" SET "+attributes+" = "+newValue;
+//               }
+//           }
+//           catch (Exception ex){
+//               System.out.println("Error: " + ex);
+//           }
+//       }
 }

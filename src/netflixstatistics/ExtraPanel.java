@@ -16,10 +16,13 @@ class ExtraPanel extends JPanel {
     private JTextArea accounts, longestMovie;
     private JScrollPane scrollPane;
     
+    private DBConnect database;
+    
     private JPanel thisPanel;
             
     public ExtraPanel() 
     {
+        database = new DBConnect();
         thisPanel = this;
         
         //Setting layout for whole panel
@@ -97,7 +100,9 @@ class ExtraPanel extends JPanel {
             //Setting other properties
             accountsLb.setFont(new Font("", Font.BOLD, 12));
             accounts.setMargin(new Insets(4, 6, 4, 6));
+            accounts.setEditable(false);
             longestMovie.setMargin(new Insets(4, 6, 4, 6));
+            longestMovie.setEditable(false);
             scrollPane.setBackground(Color.WHITE);
 
             accounts.setLineWrap(true);
@@ -105,6 +110,9 @@ class ExtraPanel extends JPanel {
             
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
      
+            //Filling textareas with data
+            getLongestMovie();
+            
             //Adding buttons & textarea in contentpanel
             content.add(accountsLb);
             content.add(scrollPane);
@@ -165,4 +173,28 @@ class ExtraPanel extends JPanel {
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
+        public void getLongestMovie() {
+            try {
+                String theQuery = "SELECT ContentID, Film, AgeCategory, Language, Duration, Genre\n" +
+                        "FROM content\n" +
+                        "WHERE AgeCategory < 16 AND Title IS NULL\n" +
+                        "ORDER BY Duration DESC\n" +
+                        "LIMIT 1;";
+                database.rs = database.st.executeQuery(theQuery);
+                
+                if (database.rs.next()) {
+                    String contentId = database.rs.getString("ContentId");
+                    String film = database.rs.getString("Film");
+                    String ageCategory = database.rs.getString("AgeCategory");
+                    String language = database.rs.getString("Language");
+                    String duration = database.rs.getString("Duration");
+                    String genre = database.rs.getString("Genre");
+
+                    longestMovie.setText(contentId+". '"+film+"' | Age "+ageCategory+" | "+language+" | "+duration+" mins | "+ genre);
+                }
+
+            } catch (Exception ex) {
+                System.out.println("Error " + ex.getMessage());
+            }
+        }
 }
