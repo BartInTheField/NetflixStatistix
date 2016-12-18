@@ -257,7 +257,7 @@ public class CreateProfilePanel extends JPanel {
                 new ConfigGUI();
                 SwingUtilities.windowForComponent(thisPanel).dispose();
             }
-        }
+        }     
 }
 
 

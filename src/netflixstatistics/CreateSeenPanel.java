@@ -2,29 +2,44 @@ package netflixstatistics;
 
 // @author Bart
 
+import domain.Account;
+import domain.Profile;
+import domain.Content;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.Border;
 
 
 public class CreateSeenPanel extends JPanel {
+    private Content selectedContent;
+    private List<Content> contents = new ArrayList<Content>();
+    private Profile selectedProfile;
+    private List<Profile> profiles = new ArrayList<Profile>();
+    private Account selectedAccount;
+    private List<Account> accounts = new ArrayList<Account>();
+    
     private JPanel menu, content;
     private BannerPanel banner;
     private NSButton menuAccBtn, menuFilmBtn, menuShowBtn, menuExtraBtn, menuConfigBtn;
-    private JTextField percentageField;
+    private JTextField idField, percentageField;
     private JLabel id, subNumber, name, program, percentage; 
-    private NSButton cancel, confirm; 
-    private JComboBox idBox, subNumberBox, nameBox, programBox;
+    private NSButton cancel, confirm, info; 
+    private JComboBox subNumberBox, nameBox, programBox;
+    
+    private DBConnect database;
     
     private JPanel thisPanel;
             
     public CreateSeenPanel()
     {
+        database = new DBConnect();
         thisPanel = this;
         
         //Setting layout for hole panel
@@ -78,12 +93,12 @@ public class CreateSeenPanel extends JPanel {
         content.setBorder(border);
             
             //setting GridLayout 
-            content.setLayout(new GridLayout(6,2,20,12));
+            content.setLayout(new GridLayout(7,2,20,10));
             
             //Initializing labels
             id = new JLabel("ID: ");
-            subNumber = new JLabel("Subscriber number: ");
-            name = new JLabel("Name: ");
+            subNumber = new JLabel("Subscriber number | Subscriber name: ");
+            name = new JLabel("Subscriber number | Profile name: ");
             program = new JLabel("Program: ");
             percentage = new JLabel("Percentage: ");
             
@@ -95,24 +110,50 @@ public class CreateSeenPanel extends JPanel {
             percentage.setForeground(Color.WHITE);
             
             //Initializing combobox
-            idBox = new JComboBox();
             subNumberBox = new JComboBox();
             nameBox = new JComboBox();
             programBox = new JComboBox();
             
             //Initializing textfields
+            idField = new JTextField(20);
+            getNewID();
+            idField.setEditable(false);
             percentageField = new JTextField(20);
             
             //Initializing buttons
+            info = new NSButton("Info");
             cancel = new NSButton("Cancel");
             confirm = new NSButton("Create seen");
-     
+            
+            InfoBtnHandler infoBtnHandler = new InfoBtnHandler();
+            info.addActionListener(infoBtnHandler);
             CancelBtnHandler cancelBtnHandler = new CancelBtnHandler();
             cancel.addActionListener(cancelBtnHandler);
+            ConfirmBtnHandler confirmBtnHandler = new ConfirmBtnHandler();
+            confirm.addActionListener(confirmBtnHandler);
+            
+            getAllAccounts();
+            for (int i = 0; i < accounts.size(); i++)
+            {
+            subNumberBox.addItem(accounts.get(i).getSubscriberNumber() 
+                    + " | " + accounts.get(i).getName() );
+            }
+            getAllProfiles();
+            for (int i = 0; i < profiles.size(); i++)
+            {
+            nameBox.addItem(profiles.get(i).getSubscriberNumber() 
+                    + " | " + profiles.get(i).getName() );
+            }
+            getAllContent();
+            for (int i = 0; i < contents.size(); i++)
+            {
+            programBox.addItem(contents.get(i).getTitle());
+            }
+            
             
             //Adding buttons in contentpanel
             content.add(id);
-            content.add(idBox);
+            content.add(idField);
             content.add(subNumber);
             content.add(subNumberBox);
             content.add(name);
@@ -121,6 +162,8 @@ public class CreateSeenPanel extends JPanel {
             content.add(programBox); 
             content.add(percentage);
             content.add(percentageField);
+            content.add(info);
+            content.add(new JLabel(""));
             content.add(cancel);
             content.add(confirm);
             
@@ -160,6 +203,7 @@ public class CreateSeenPanel extends JPanel {
         }
     }
         
+        //Content Handler
         class CancelBtnHandler implements ActionListener
     {
         @Override
@@ -169,6 +213,141 @@ public class CreateSeenPanel extends JPanel {
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
+        
+        class InfoBtnHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            JOptionPane.showMessageDialog(thisPanel, "The subscriber number should be the same in both "
+                    + "comboboxes in order to create a 'seen'"
+            , "Information" , JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+       
+                
+        
+        //Database handlers
+        
+                public void getNewID()
+    {
+        try{
+            String theQuery = "SELECT MAX(SeenID) FROM `seen`";
+            database.rs = database.st.executeQuery(theQuery);
+            if(database.rs.last())
+            {
+                database.rowcount = database.rs.getRow();
+                database.rs.beforeFirst();
+            }
+            while(database.rs.next()){
+                
+                if(database.rs.getString("MAX(SeenID)") != null)
+                {
+                    int i = Integer.parseInt(database.rs.getString("MAX(SeenID)"));
+                    i +=1;
+                    idField.setText(""+i);
+                }
+                else
+                {
+                    idField.setText("1");
+                }
+            }
+        }catch(Exception ex){
+            System.out.println("Error: " +ex);
+        }
+    }
+                public void getAllAccounts()
+    {
+        try{
+            String theQuery = "SELECT * FROM `account`";
+            database.rs = database.st.executeQuery(theQuery);
+            if(database.rs.last())
+            {
+                database.rowcount = database.rs.getRow();
+                database.rs.beforeFirst();
+            }
+            while(database.rs.next()){
+                accounts.add(new Account(Integer.parseInt(database.rs.getString("SubscriberNumber"))
+                        ,database.rs.getString("Name"),database.rs.getString("Street")
+                        ,database.rs.getString("PostalCode"), Integer.parseInt(database.rs.getString("StreetNumber")), 
+                        database.rs.getString("City"),database.rs.getString("Birthday")));
+            }
+        }catch(Exception ex){
+            System.out.println("Error: " +ex);
+        }
+    }
+                public void getAllProfiles()
+    {
+        try{
+            String theQuery = "SELECT * FROM `profile`";
+            database.rs = database.st.executeQuery(theQuery);
+            if(database.rs.last())
+            {
+                database.rowcount = database.rs.getRow();
+                database.rs.beforeFirst();
+            }
+            while(database.rs.next()){
+                profiles.add(new Profile(Integer.parseInt(database.rs.getString("ProfileNumber"))
+                        ,Integer.parseInt(database.rs.getString("SubscriberNumber")),database.rs.getString("Name")
+                        ,database.rs.getString("Birthday")));
+            }
+        }catch(Exception ex){
+            System.out.println("Error: " +ex);
+        }
+    }
+                public void getAllContent()
+    {
+        try{
+            String theQuery = "SELECT ContentID, Title FROM `content`";
+            database.rs = database.st.executeQuery(theQuery);
+            if(database.rs.last())
+            {
+                database.rowcount = database.rs.getRow();
+                database.rs.beforeFirst();
+            }
+            while(database.rs.next()){
+                contents.add(new Content(Integer.parseInt(database.rs.getString("ContentID"))
+                        ,database.rs.getString("Title")));
+            }
+        }catch(Exception ex){
+            System.out.println("Error: " +ex);
+        }
+    }
+                class ConfirmBtnHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+            {
+                int subNmbr = 0;
+                int profileNmbr = 0;  
+                int contentID = 0;
+                for (int i = 0; i < accounts.size(); i++) {
+                    if (subNumberBox.getSelectedItem().toString().endsWith(accounts.get(i).getName()))
+                    {
+                        subNmbr = accounts.get(i).getSubscriberNumber();
+                    }
+                
+                for (int j = 0; j < profiles.size(); j++) {
+                    if(nameBox.getSelectedItem().toString().endsWith(profiles.get(j).getName()))
+                    {
+                        profileNmbr = profiles.get(j).getProfileNumber();
+                    }
+                    for (int k = 0; k < contents.size(); k++) {
+                    if(contents.get(k).getTitle().equals(programBox.getSelectedItem().toString()))
+                    {
+                        contentID = contents.get(k).getContentID();
+                    }
+                }
+                }
+                }
+                System.out.println("Created new seen");
+                database.createData("Seen", "SeenID ,ProfileNumber, SubscriberNumber, ContentID, Percentage", 
+                        "'"+idField.getText() + "','"+profileNmbr+"','" 
+                                +subNmbr+ "','" + contentID+ "','" +percentageField.getText()+"'");
+                new ConfigGUI();
+                SwingUtilities.windowForComponent(thisPanel).dispose();
+    }
+  }
 }
 
 
