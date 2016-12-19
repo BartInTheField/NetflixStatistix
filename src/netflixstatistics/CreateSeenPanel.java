@@ -12,6 +12,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -147,7 +148,14 @@ public class CreateSeenPanel extends JPanel {
             getAllContent();
             for (int i = 0; i < contents.size(); i++)
             {
-            programBox.addItem(contents.get(i).getTitle());
+                if(contents.get(i).getFilm() != null)
+                {
+                    programBox.addItem(contents.get(i).getFilm());
+                }
+                else
+                {
+                    programBox.addItem(contents.get(i).getTvShow() + " " + contents.get(i).getSeasonCode());
+                }
             }
             
             
@@ -298,7 +306,7 @@ public class CreateSeenPanel extends JPanel {
                 public void getAllContent()
     {
         try{
-            String theQuery = "SELECT ContentID, Title FROM `content`";
+            String theQuery = "SELECT ContentID, Film, TV_Show, SeasonCode FROM `content`";
             database.rs = database.st.executeQuery(theQuery);
             if(database.rs.last())
             {
@@ -307,7 +315,8 @@ public class CreateSeenPanel extends JPanel {
             }
             while(database.rs.next()){
                 contents.add(new Content(Integer.parseInt(database.rs.getString("ContentID"))
-                        ,database.rs.getString("Title")));
+                        ,database.rs.getString("Film"), database.rs.getString("TV_Show")
+                        , database.rs.getString("SeasonCode")));
             }
         }catch(Exception ex){
             System.out.println("Error: " +ex);
@@ -335,11 +344,13 @@ public class CreateSeenPanel extends JPanel {
                         profileNmbr = profiles.get(j).getProfileNumber();
                     }
                     for (int k = 0; k < contents.size(); k++) {
-                    if(contents.get(k).getTitle().equals(programBox.getSelectedItem().toString()))
+                    if(programBox.getSelectedItem().toString().equals(contents.get(k).getFilm()))
                     {
                         contentID = contents.get(k).getContentID();
                     }
-                   
+                    if(programBox.getSelectedItem().toString().equals(contents.get(k).getTvShow() + " " + contents.get(k).getSeasonCode())){
+                        contentID = contents.get(k).getContentID();
+                    }
                     }
                     }
                     }

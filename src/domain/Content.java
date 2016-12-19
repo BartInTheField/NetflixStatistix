@@ -4,11 +4,13 @@ package domain;
 
 public class Content {
     private int contentID;
-    private String title;
+    private String tvShow, seasonCode, film;
     
-    public Content(int contentID, String title){
+    public Content(int contentID, String film, String tvShow, String seasonCode){
         this.contentID = contentID;
-        this.title = title;
+        this.tvShow = tvShow;
+        this.film = film;
+        this.seasonCode = seasonCode;
     }
 
     public int getContentID() {
@@ -19,12 +21,29 @@ public class Content {
         this.contentID = contentID;
     }
 
-    public String getTitle() {
-        return title;
+    public String getFilm() {
+        return film;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setFilm(String film) {
+        this.film = film;
     }
+
+    public String getTvShow() {
+        return tvShow;
+    }
+
+    public void setTvShow(String tvShow) {
+        this.tvShow = tvShow;
+    }
+
+    public String getSeasonCode() {
+        return seasonCode;
+    }
+
+    public void setSeasonCode(String seasonCode) {
+        this.seasonCode = seasonCode;
+    }
+    
     
 }
