@@ -3,16 +3,75 @@ package domain;
 // @author Bart
 
 public class Content {
-    private int contentID;
-    private String tvShow, seasonCode, film;
+    private int contentID, ageCategory;
+    private String tvShow, seasonCode, film, title, language, duration, 
+            genre, similarTo;
     
-    public Content(int contentID, String film, String tvShow, String seasonCode){
+    public Content(int contentID, String film, String tvShow, String seasonCode, 
+            String title, int ageCategory, String language, String duration, 
+            String genre, String similarTo){
         this.contentID = contentID;
         this.tvShow = tvShow;
         this.film = film;
         this.seasonCode = seasonCode;
+        this.title = title;
+        this.ageCategory = ageCategory;
+        this.language = language;
+        this.duration = duration;
+        this.genre = genre;
+        this.similarTo = similarTo;
     }
 
+    public int getAgeCategory() {
+        return ageCategory;
+    }
+
+    public void setAgeCategory(int ageCategory) {
+        this.ageCategory = ageCategory;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getSimilarTo() {
+        return similarTo;
+    }
+
+    public void setSimilarTo(String similarTo) {
+        this.similarTo = similarTo;
+    }
+    
+    
+    
     public int getContentID() {
         return contentID;
     }

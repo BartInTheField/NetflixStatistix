@@ -37,6 +37,33 @@ public class DBConnect {
             System.out.println("Error: " +ex);
         }
     }
+       
+       public void updateAccInfo(String accID, String name, String street, 
+               String postalCode , String streetNumber, String city, String birthday)
+    {
+        try{
+            String theQuery = "UPDATE `account` SET Name='"+name+"', Street='"+street+"', "
+                    + "PostalCode ='"+postalCode+"', StreetNumber='"+streetNumber+"', "
+                    + "City='"+city+"', Birthday='"+birthday+"' WHERE SubscriberNumber='"+accID+"'";
+            st.executeUpdate(theQuery);
+            
+        }catch(Exception ex){
+            System.out.println("Error: " +ex);
+        }
+    }
+       
+       public void updateProfileInfo(String profileID, String name, String birthday)
+    {
+        try{
+            String theQuery = "UPDATE `profile` SET Name='"+name+"', Birthday ='"+birthday+"' "
+                    + "WHERE ProfileNumber='"+profileID+"'";
+            st.executeUpdate(theQuery);
+            
+        }catch(Exception ex){
+            System.out.println("Error: " +ex);
+        }
+    }
+       
 //       public void editData (String table, String attributes, String newValue, int rowcount)
 //       {
 //           try {
