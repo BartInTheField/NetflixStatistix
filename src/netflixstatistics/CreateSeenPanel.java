@@ -136,13 +136,13 @@ public class CreateSeenPanel extends JPanel {
             for (int i = 0; i < accounts.size(); i++)
             {
             subNumberBox.addItem(accounts.get(i).getSubscriberNumber() 
-                    + " | " + accounts.get(i).getName() );
+                    + "    |    " + accounts.get(i).getName() );
             }
             getAllProfiles();
             for (int i = 0; i < profiles.size(); i++)
             {
             nameBox.addItem(profiles.get(i).getSubscriberNumber() 
-                    + " | " + profiles.get(i).getName() );
+                    + "    |    " + profiles.get(i).getName() );
             }
             getAllContent();
             for (int i = 0; i < contents.size(); i++)
@@ -321,13 +321,15 @@ public class CreateSeenPanel extends JPanel {
                 int subNmbr = 0;
                 int profileNmbr = 0;  
                 int contentID = 0;
-                for (int i = 0; i < accounts.size(); i++) {
+                
+                
+                    for (int i = 0; i < accounts.size(); i++) {
                     if (subNumberBox.getSelectedItem().toString().endsWith(accounts.get(i).getName()))
                     {
                         subNmbr = accounts.get(i).getSubscriberNumber();
                     }
                 
-                for (int j = 0; j < profiles.size(); j++) {
+                    for (int j = 0; j < profiles.size(); j++) {
                     if(nameBox.getSelectedItem().toString().endsWith(profiles.get(j).getName()))
                     {
                         profileNmbr = profiles.get(j).getProfileNumber();
@@ -337,16 +339,24 @@ public class CreateSeenPanel extends JPanel {
                     {
                         contentID = contents.get(k).getContentID();
                     }
-                }
-                }
-                }
+                   
+                    }
+                    }
+                    }
+                    if  (subNumberBox.getSelectedItem().toString().regionMatches(0,nameBox.getSelectedItem().toString(),0,4)){
                 System.out.println("Created new seen");
                 database.createData("Seen", "SeenID ,ProfileNumber, SubscriberNumber, ContentID, Percentage", 
                         "'"+idField.getText() + "','"+profileNmbr+"','" 
                                 +subNmbr+ "','" + contentID+ "','" +percentageField.getText()+"'");
                 new ConfigGUI();
                 SwingUtilities.windowForComponent(thisPanel).dispose();
-    }
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(thisPanel, "Subscriber numbers are not the same"
+            , "Error" , JOptionPane.ERROR_MESSAGE);
+                    }
+            }
+                
   }
 }
 
