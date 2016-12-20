@@ -62,6 +62,8 @@ public class EditProfilePanel extends JPanel {
         menuFilmBtn.addActionListener(menuFilmBtnHandler);
         MenuShowBtnHandler menuShowBtnHandler = new MenuShowBtnHandler();
         menuShowBtn.addActionListener(menuShowBtnHandler);
+        MenuExtraBtnHandler extraBtnHandler = new MenuExtraBtnHandler();
+        menuExtraBtn.addActionListener(extraBtnHandler);
 
         //Setting background color for buttons
         menuConfigBtn.setBackground(Color.WHITE);//Is white because active
@@ -171,7 +173,17 @@ public class EditProfilePanel extends JPanel {
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
+    
+    class MenuExtraBtnHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new ExtraGUI();
+            SwingUtilities.windowForComponent(thisPanel).dispose();
+        }
+    }
 
+    //Content button handlers 
     class CancelBtnHandler implements ActionListener {
 
         @Override

@@ -181,7 +181,7 @@ public class ConfigPanel extends JPanel {
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
-                class MenuExtraBtnHandler implements ActionListener
+         class MenuExtraBtnHandler implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e) {
