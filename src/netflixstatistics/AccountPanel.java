@@ -109,13 +109,9 @@ class AccountPanel extends JPanel {
             getAllAccounts();
             getAllProfiles();
             for (int i = 0; i < profiles.size(); i++) {
-                for (int j = 0; j < accounts.size(); j++){
-                    if (profiles.get(i).getSubscriberNumber() == (accounts.get(j).getSubscriberNumber())) {
-                        contentAccountBox.addItem(profiles.get(i).getProfileNumber()+ " | " + 
-                                profiles.get(i).getName() 
-                              + " | " + accounts.get(i).getName());
-                    }
-              }
+                contentAccountBox.addItem(profiles.get(i).getProfileNumber()+ " | " + 
+                                profiles.get(i).getName());
+              
             }
             
             //Adding buttons in contentpanel
