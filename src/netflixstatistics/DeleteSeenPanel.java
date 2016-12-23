@@ -2,29 +2,47 @@ package netflixstatistics;
 
 // @AUTHOR Felix
 
+import domain.Account;
+import domain.Content;
+import domain.Profile;
+import domain.Seen;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.Border;
 
 
 public class DeleteSeenPanel extends JPanel {
+    private DBConnect database;
+    
+    private Seen selectedSeen;
+    private List<Seen> seens = new ArrayList<Seen>(); 
+    private Content selectedContent;
+    private List<Content> contents = new ArrayList<Content>();
+    private Profile selectedProfile;
+    private List<Profile> profiles = new ArrayList<Profile>();
+    private Account selectedAccount;
+    private List<Account> accounts = new ArrayList<Account>();
+    
     private JPanel menu, content;
     private BannerPanel banner;
     private NSButton menuAccBtn, menuFilmBtn, menuShowBtn, menuExtraBtn, menuConfigBtn;
-    private JTextField percentageField;
+    private JTextField percentageField, nameField, programField, subNumberField;
     private JLabel id, subNumber, name, program, percentage; 
     private NSButton cancel, confirm; 
-    private JComboBox idBox, subNumberBox, nameBox, programBox;
+    private JComboBox idBox;
     
     private JPanel thisPanel;
             
     public DeleteSeenPanel()
     {
+        database = new DBConnect();
         thisPanel = this;
         
         //Setting layout for hole panel
@@ -84,8 +102,8 @@ public class DeleteSeenPanel extends JPanel {
             
             //Initializing labels
             id = new JLabel("ID: ");
-            subNumber = new JLabel("Subscriber number: ");
-            name = new JLabel("Name: ");
+            subNumber = new JLabel("Subscriber number | Subscriber name: ");
+            name = new JLabel("Subscriber number | Profile name: ");
             program = new JLabel("Program: ");
             percentage = new JLabel("Percentage: ");
             
@@ -98,12 +116,21 @@ public class DeleteSeenPanel extends JPanel {
             
             //Initializing combobox
             idBox = new JComboBox();
-            subNumberBox = new JComboBox();
-            nameBox = new JComboBox();
-            programBox = new JComboBox();
+            
+            DropDownHandler dropDownHandler = new DropDownHandler();
+            idBox.addActionListener(dropDownHandler);
             
             //Initializing textfields
             percentageField = new JTextField(20);
+            subNumberField = new JTextField(20);
+            nameField = new JTextField(20);
+            programField = new JTextField(20);
+            
+            //Setting editable false
+            subNumberField.setEditable(false);
+            nameField.setEditable(false);
+            programField.setEditable(false);
+            percentageField.setEditable(false);
             
             //Initializing buttons
             cancel = new NSButton("Cancel");
@@ -111,16 +138,27 @@ public class DeleteSeenPanel extends JPanel {
      
             CancelBtnHandler cancelBtnHandler = new CancelBtnHandler();
             cancel.addActionListener(cancelBtnHandler);
+            ConfirmBtnHandler confirmBtnHandler = new ConfirmBtnHandler();
+            confirm.addActionListener(confirmBtnHandler);
+            
+            getAllProfiles();
+            getAllAccounts();
+            getAllContent();
+            getAllSeen();
+            for (int i = 0; i < seens.size(); i++) {
+            idBox.addItem(seens.get(i).getSeenId());
+        }
+            
             
             //Adding buttons in contentpanel
             content.add(id);
             content.add(idBox);
             content.add(subNumber);
-            content.add(subNumberBox);
+            content.add(subNumberField);
             content.add(name);
-            content.add(nameBox);
+            content.add(nameField);
             content.add(program);
-            content.add(programBox); 
+            content.add(programField); 
             content.add(percentage);
             content.add(percentageField);
             content.add(cancel);
@@ -161,6 +199,7 @@ public class DeleteSeenPanel extends JPanel {
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
+        
         class MenuExtraBtnHandler implements ActionListener
     {
         @Override
@@ -169,7 +208,8 @@ public class DeleteSeenPanel extends JPanel {
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
-        //Contente button handlers
+     
+        //Content button handlers 
         class CancelBtnHandler implements ActionListener
     {
         @Override
@@ -179,6 +219,149 @@ public class DeleteSeenPanel extends JPanel {
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
+        
+        //Database handlers
+        
+         public void getAllSeen() {
+        try {
+            String theQuery = "SELECT * FROM `seen`";
+            database.rs = database.st.executeQuery(theQuery);
+            if (database.rs.last()) {
+                database.rowcount = database.rs.getRow();
+                database.rs.beforeFirst();
+            }
+            while (database.rs.next()) {
+                seens.add(new Seen(Integer.parseInt(database.rs.getString("SeenID")),
+                         Integer.parseInt(database.rs.getString("ProfileNumber")), 
+                        Integer.parseInt(database.rs.getString("SubscriberNumber")),
+                          Integer.parseInt(database.rs.getString("ContentID")), 
+                        Float.parseFloat(database.rs.getString("Percentage"))));
+            }
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex);
+        }
+    }
+            public void getAllAccounts() {
+        try {
+            String theQuery = "SELECT * FROM `account`";
+            database.rs = database.st.executeQuery(theQuery);
+            if (database.rs.last()) {
+                database.rowcount = database.rs.getRow();
+                database.rs.beforeFirst();
+            }
+            while (database.rs.next()) {
+                accounts.add(new Account(Integer.parseInt(database.rs.getString("SubscriberNumber")),
+                         database.rs.getString("Name"), database.rs.getString("Street"),
+                         database.rs.getString("PostalCode"), Integer.parseInt(database.rs.getString("StreetNumber")),
+                        database.rs.getString("City"), database.rs.getString("Birthday")));
+            }
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex);
+        }
+    }
+
+    public void getAllProfiles() {
+        try {
+            String theQuery = "SELECT * FROM `profile`";
+            database.rs = database.st.executeQuery(theQuery);
+            if (database.rs.last()) {
+                database.rowcount = database.rs.getRow();
+                database.rs.beforeFirst();
+            }
+            while (database.rs.next()) {
+                profiles.add(new Profile(Integer.parseInt(database.rs.getString("ProfileNumber")),
+                         Integer.parseInt(database.rs.getString("SubscriberNumber")), database.rs.getString("Name"),
+                         database.rs.getString("Birthday")));
+            }
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex);
+        }
+    }
+
+    public void getAllContent() {
+        try {
+            String theQuery = "SELECT * FROM `content`";
+            database.rs = database.st.executeQuery(theQuery);
+            if (database.rs.last()) {
+                database.rowcount = database.rs.getRow();
+                database.rs.beforeFirst();
+            }
+            while (database.rs.next()) {
+                contents.add(new Content(Integer.parseInt(database.rs.getString("ContentID")),
+                         database.rs.getString("Film"), database.rs.getString("TV_Show"),
+                         database.rs.getString("SeasonCode"), database.rs.getString("Title"), 
+                        Integer.parseInt(database.rs.getString("AgeCategory")), 
+                        database.rs.getString("Language"), database.rs.getString("Duration"), 
+                        database.rs.getString("Genre"), database.rs.getString("SimilarTo")));
+            }
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex);
+        }
+    }
+         
+          public void getSeenInfo(String seenID) {
+        try {
+            String theQuery = "SELECT Percentage FROM `seen` WHERE SeenID='"+seenID+"'";
+            database.rs = database.st.executeQuery(theQuery);
+            if (database.rs.last()) {
+                database.rowcount = database.rs.getRow();
+                database.rs.beforeFirst();
+            }
+            while (database.rs.next()) {
+                percentageField.setText(database.rs.getString("Percentage"));
+            }
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex);
+        }
+    }
+    class DropDownHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            for (int i = 0; i < seens.size(); i++) {
+                if (idBox.getSelectedItem().toString().equals(seens.get(i).getSeenId() + "")) {
+                    selectedSeen = seens.get(i);
+                    break;
+                }
+            }
+            getSeenInfo(idBox.getSelectedItem().toString());
+            for (int i = 0; i < accounts.size(); i++) {
+                if (accounts.get(i).getSubscriberNumber() == (selectedSeen.getSubscriberNumber())) {
+                    subNumberField.setText(accounts.get(i).getSubscriberNumber() 
+                            + " | " + accounts.get(i).getName());
+                }
+            }
+            for (int i = 0; i < profiles.size(); i++) {
+                if (profiles.get(i).getProfileNumber() == (selectedSeen.getProfileNumber())) {
+                    nameField.setText(profiles.get(i).getSubscriberNumber() 
+                            + " | " + profiles.get(i).getName());
+                }
+            }
+            for (int i = 0; i < contents.size(); i++) {
+                if (contents.get(i).getContentID() == (selectedSeen.getContentId())) {
+                    if (contents.get(i).getFilm() != null){
+                    programField.setText(contents.get(i).getFilm());
+                    }
+                    else{
+                    programField.setText(contents.get(i).getTvShow() + " " + 
+                            contents.get(i).getSeasonCode());
+                    }
+                }
+            }
+        }
+    }
+    
+       class ConfirmBtnHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            database.DeleteInfo("seen", "SeenID", selectedSeen.getSeenId()+"");
+            System.out.println("Deleted seen");
+            new ConfigGUI();
+            SwingUtilities.windowForComponent(thisPanel).dispose();
+        }
+    }
 }
+
 
 

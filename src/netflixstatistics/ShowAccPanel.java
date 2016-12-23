@@ -2,6 +2,7 @@ package netflixstatistics;
 
 // @AUTHOR Felix
 
+import domain.Profile;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +20,7 @@ class ShowAccPanel extends JPanel {
     private JPanel thisPanel;
     
             
-    public ShowAccPanel() 
+    public ShowAccPanel(Profile profile) 
     {
         thisPanel = this;
         

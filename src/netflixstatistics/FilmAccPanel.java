@@ -2,6 +2,7 @@ package netflixstatistics;
 
 // @AUTHOR Felix
 
+import domain.Profile;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,8 +19,9 @@ class FilmAccPanel extends JPanel {
     
     private JPanel thisPanel;
             
-    public FilmAccPanel() 
+    public FilmAccPanel(Profile profile) 
     {
+        
         thisPanel = this;
         
         //Setting layout for whole panel
@@ -54,7 +56,7 @@ class FilmAccPanel extends JPanel {
             menuConfigBtn.addActionListener(configBtnHandler);
             
             //Initializing labels
-            profileNameLb = new JLabel("Jesse Witje");
+            profileNameLb = new JLabel(profile.getName());
             filmsWatchedLb = new JLabel("Films watched:");
             
             //Initializing textarea & scrollpanel

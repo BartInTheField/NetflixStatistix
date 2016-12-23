@@ -2,13 +2,22 @@ package netflixstatistics;
 
 // @AUTHOR Felix
 
+import domain.Account;
+import domain.Profile;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 
  
 class AccountPanel extends JPanel {
+    private Account selectedAccount;
+    private List<Account> accounts = new ArrayList<Account>();
+    private Profile selectedProfile;
+    private List<Profile> profiles = new ArrayList<Profile>();
+    
     private final JPanel menu, content;
     private final BannerPanel banner;
     private final NSButton menuAccBtn, menuFilmBtn, menuShowBtn, menuExtraBtn, menuConfigBtn;
@@ -92,13 +101,28 @@ class AccountPanel extends JPanel {
             //Setting location of buttons
             contentAccountBox.setBounds(50,30,400,25);
             contentFilmBtn.setBounds(50,70,200,100);
-            contentShowBtn.setBounds(250,70,200,100);                        
-     
+            contentShowBtn.setBounds(250,70,200,100);   
+            
+            getAllAccounts();
+            getAllProfiles();
+            for (int i = 0; i < profiles.size(); i++) {
+                for (int j = 0; j < accounts.size(); j++){
+                    if (profiles.get(i).getSubscriberNumber() == (accounts.get(j).getSubscriberNumber())) {
+                        contentAccountBox.addItem(profiles.get(i).getProfileNumber()+ " | " + 
+                                profiles.get(i).getName() 
+                              + " | " + accounts.get(i).getName());
+                    }
+              }
+            }
+            
+            DropDownHandler dropDownHandler = new DropDownHandler();
+            contentAccountBox.addActionListener(dropDownHandler);
+            
             //Adding buttons in contentpanel
             content.add(contentAccountBox);
             content.add(contentFilmBtn);
             content.add(contentShowBtn);
-        
+            
         //Adding panels to Accountpanel
         add(banner, BorderLayout.NORTH);
         add(content, BorderLayout.CENTER);
@@ -133,12 +157,25 @@ class AccountPanel extends JPanel {
     }
         
     //Handlers for content buttons    
+        class DropDownHandler implements ActionListener
+        {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+        for (int i = 0; i < profiles.size(); i++){
+            if (contentAccountBox.getSelectedItem().toString().startsWith(profiles.get(i).getProfileNumber()+"")){
+                        selectedProfile = profiles.get(i);
+                    }
+            }
+        }
+    }
+    
         class ShowBtnHandler implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            new ShowAccGUI();
+            new ShowAccGUI(selectedProfile);
             SwingUtilities.windowForComponent(thisPanel).dispose();
         } 
     } 
@@ -148,7 +185,7 @@ class AccountPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            new FilmAccGUI();
+            new FilmAccGUI(selectedProfile);
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
@@ -167,6 +204,44 @@ class AccountPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             new ConfigGUI();
             SwingUtilities.windowForComponent(thisPanel).dispose();
+        }
+    }
+        
+        //Database Handlers 
+    public void getAllAccounts() {
+        try {
+            String theQuery = "SELECT * FROM `account`";
+            database.rs = database.st.executeQuery(theQuery);
+            if (database.rs.last()) {
+                database.rowcount = database.rs.getRow();
+                database.rs.beforeFirst();
+            }
+            while (database.rs.next()) {
+                accounts.add(new Account(Integer.parseInt(database.rs.getString("SubscriberNumber")),
+                         database.rs.getString("Name"), database.rs.getString("Street"),
+                         database.rs.getString("PostalCode"), Integer.parseInt(database.rs.getString("StreetNumber")),
+                        database.rs.getString("City"), database.rs.getString("Birthday")));
+            }
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex);
+        }
+    }
+
+    public void getAllProfiles() {
+        try {
+            String theQuery = "SELECT * FROM `profile`";
+            database.rs = database.st.executeQuery(theQuery);
+            if (database.rs.last()) {
+                database.rowcount = database.rs.getRow();
+                database.rs.beforeFirst();
+            }
+            while (database.rs.next()) {
+                profiles.add(new Profile(Integer.parseInt(database.rs.getString("ProfileNumber")),
+                         Integer.parseInt(database.rs.getString("SubscriberNumber")), database.rs.getString("Name"),
+                         database.rs.getString("Birthday")));
+            }
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex);
         }
     }
 }

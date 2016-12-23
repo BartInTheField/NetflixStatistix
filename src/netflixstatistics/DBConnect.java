@@ -63,6 +63,27 @@ public class DBConnect {
             System.out.println("Error: " +ex);
         }
     }
+       public void updateSeenInfo(String seenID, String percentage)
+    {
+        try{
+            String theQuery = "UPDATE `seen` SET Percentage='"+percentage+"' WHERE SeenID='"+seenID+"'";
+            st.executeUpdate(theQuery);
+            
+        }catch(Exception ex){
+            System.out.println("Error: " +ex);
+        }
+    }
+       
+       public void DeleteInfo(String table, String colum, String accID)
+    {
+        try{
+            String theQuery = "DELETE FROM `"+table+"` WHERE "+colum+"='"+accID+"'";
+            st.executeUpdate(theQuery);
+            
+        }catch(Exception ex){
+            System.out.println("Error: " +ex);
+        }
+    }
        
 //       public void editData (String table, String attributes, String newValue, int rowcount)
 //       {

@@ -109,6 +109,7 @@ public class EditProfilePanel extends JPanel {
 
         DropDownBtnHandler dropDownBtnHandler = new DropDownBtnHandler();
         subNumberBox.addActionListener(dropDownBtnHandler);
+        
         //Initializing textfields
         nameField = new JTextField(20);
         birthdayField = new JTextField(20);
