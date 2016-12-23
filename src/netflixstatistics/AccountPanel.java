@@ -92,6 +92,9 @@ class AccountPanel extends JPanel {
             contentShowBtn = new NSButton("Show");
             contentAccountBox = new JComboBox();
             
+            DropDownHandler dropDownHandler = new DropDownHandler();
+            contentAccountBox.addActionListener(dropDownHandler);
+            
             //Adding handlers to buttons
             ShowBtnHandler showBtnHandler = new ShowBtnHandler();
             contentShowBtn.addActionListener(showBtnHandler);
@@ -114,9 +117,6 @@ class AccountPanel extends JPanel {
                     }
               }
             }
-            
-            DropDownHandler dropDownHandler = new DropDownHandler();
-            contentAccountBox.addActionListener(dropDownHandler);
             
             //Adding buttons in contentpanel
             content.add(contentAccountBox);
