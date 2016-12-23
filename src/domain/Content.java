@@ -3,9 +3,10 @@ package domain;
 // @author Bart
 
 public class Content {
-    private int contentID, ageCategory;
+    private int contentID, ageCategory, profileNumber;
     private String tvShow, seasonCode, film, title, language, duration, 
             genre, similarTo;
+    private float percentage;
     
     public Content(int contentID, String film, String tvShow, String seasonCode, 
             String title, int ageCategory, String language, String duration, 
@@ -20,6 +21,19 @@ public class Content {
         this.duration = duration;
         this.genre = genre;
         this.similarTo = similarTo;
+    }
+    
+    public Content(int contentID, String film, float percentage,  int profileNumber){
+        this.contentID = contentID;
+        this.film = film;
+        this.percentage = percentage;
+        this.profileNumber = profileNumber;
+    }
+    
+    public Content(int contentID, String film, float percentage){
+        this.contentID = contentID;
+        this.film = film;
+        this.percentage = percentage;
     }
 
     public int getAgeCategory() {
@@ -70,8 +84,6 @@ public class Content {
         this.similarTo = similarTo;
     }
     
-    
-    
     public int getContentID() {
         return contentID;
     }
@@ -103,6 +115,26 @@ public class Content {
     public void setSeasonCode(String seasonCode) {
         this.seasonCode = seasonCode;
     }
+
+    public int getProfileNumber() {
+        return profileNumber;
+    }
+
+    public void setProfileNumber(int profileNumber) {
+        this.profileNumber = profileNumber;
+    }
+
+    public float getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(float percentage) {
+        this.percentage = percentage;
+    }
     
+    
+    public String toString() {
+        return getContentID() + " | " + getFilm() + ", " + getPercentage() + " " + getProfileNumber() + "\n";
+    }
     
 }

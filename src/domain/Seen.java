@@ -13,6 +13,11 @@ public class Seen {
         this.contentId = contentId;
         this.percentage = percentage;
     }
+    
+    public Seen(int contentId, int profileNumber) {
+        this.profileNumber = profileNumber;
+        this.contentId = contentId;
+    }
 
     public int getSeenId() {
         return seenId;
@@ -52,5 +57,9 @@ public class Seen {
 
     public void setPercentage(float percentage) {
         this.percentage = percentage;
+    }
+    
+    public String toString() {
+        return "ContentID: " + getContentId() + ", ProfileNumber: " + getProfileNumber() + "\n";
     }
 }
