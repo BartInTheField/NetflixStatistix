@@ -20,6 +20,7 @@ class AccountPanel extends JPanel {
     
     private final JPanel menu, content;
     private final BannerPanel banner;
+    private final JLabel info;
     private final NSButton menuAccBtn, menuFilmBtn, menuShowBtn, menuExtraBtn, menuConfigBtn;
     private final NSButton contentFilmBtn, contentShowBtn;
     private JComboBox contentAccountBox;
@@ -87,13 +88,17 @@ class AccountPanel extends JPanel {
             //setting layout null so setBounds works
             content.setLayout(null);
             
-            //Initializing buttons and combobox
+            //Initializing buttons, label and combobox
             contentFilmBtn = new NSButton("Film");
             contentShowBtn = new NSButton("Show");
             contentAccountBox = new JComboBox();
+            info = new JLabel("Profile Number | Subscriber Number | Name profile");
             
             DropDownHandler dropDownHandler = new DropDownHandler();
             contentAccountBox.addActionListener(dropDownHandler);
+            
+            //Setting color info white
+            info.setForeground(Color.WHITE);
             
             //Adding handlers to buttons
             ShowBtnHandler showBtnHandler = new ShowBtnHandler();
@@ -101,20 +106,22 @@ class AccountPanel extends JPanel {
             FilmBtnHandler filmBtnHandler = new FilmBtnHandler();
             contentFilmBtn.addActionListener(filmBtnHandler);
            
-            //Setting location of buttons
+            //Setting location of buttons, label and combobox
             contentAccountBox.setBounds(50,30,400,25);
+            info.setBounds(50, 10, 400, 25);
             contentFilmBtn.setBounds(50,70,200,100);
             contentShowBtn.setBounds(250,70,200,100);   
             
             getAllAccounts();
             getAllProfiles();
             for (int i = 0; i < profiles.size(); i++) {
-                contentAccountBox.addItem(profiles.get(i).getProfileNumber()+ " | " + 
+                contentAccountBox.addItem(profiles.get(i).getProfileNumber() + " | " + profiles.get(i).getSubscriberNumber()+ " | " + 
                                 profiles.get(i).getName());
               
             }
             
             //Adding buttons in contentpanel
+            content.add(info);
             content.add(contentAccountBox);
             content.add(contentFilmBtn);
             content.add(contentShowBtn);
