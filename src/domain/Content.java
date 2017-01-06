@@ -35,6 +35,13 @@ public class Content {
         this.film = film;
         this.percentage = percentage;
     }
+    
+    public Content(int contentID, String tvShow, String seasonCode, String title) {
+        this.contentID = contentID;
+        this.tvShow = tvShow;
+        this.seasonCode = seasonCode;
+        this.title = title;
+    }
 
     public int getAgeCategory() {
         return ageCategory;
@@ -133,8 +140,8 @@ public class Content {
     }
     
     
-    public String toString() {
-        return getContentID() + " | " + getFilm() + ", " + getPercentage() + " " + getProfileNumber() + "\n";
-    }
+//    public String toString() {
+//        return getContentID() + " | " + getFilm() + ", " + getPercentage() + " " + getProfileNumber() + "\n";
+//    }
     
 }
