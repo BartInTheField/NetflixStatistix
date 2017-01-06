@@ -61,6 +61,8 @@ public class DeleteAccPanel extends JPanel {
         menuShowBtn.addActionListener(menuShowBtnHandler);
         MenuExtraBtnHandler extraBtnHandler = new MenuExtraBtnHandler();
         menuExtraBtn.addActionListener(extraBtnHandler);
+            MenuConfigBtnHandler configBtnHandler = new MenuConfigBtnHandler();
+            menuConfigBtn.addActionListener(configBtnHandler);
 
         //Setting background color for buttons
         menuConfigBtn.setBackground(Color.WHITE);//Is white because active
@@ -126,7 +128,7 @@ public class DeleteAccPanel extends JPanel {
         streetNumberField.setEditable(false);
         cityField.setEditable(false);
         birthdayField.setEditable(false);
-        
+
         //Initializing buttons
         cancel = new NSButton("Cancel");
         confirm = new NSButton("Delete account");
@@ -135,7 +137,6 @@ public class DeleteAccPanel extends JPanel {
         cancel.addActionListener(cancelBtnHandler);
         ConfirmBtnHandler confirmBtnHandler = new ConfirmBtnHandler();
         confirm.addActionListener(confirmBtnHandler);
-
 
         getAllAccounts();
 
@@ -192,11 +193,21 @@ public class DeleteAccPanel extends JPanel {
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
-            class MenuExtraBtnHandler implements ActionListener
-    {
+
+    class MenuExtraBtnHandler implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             new ExtraGUI();
+            SwingUtilities.windowForComponent(thisPanel).dispose();
+        }
+    }
+                        
+        class MenuConfigBtnHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new ConfigGUI();
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
@@ -271,7 +282,7 @@ public class DeleteAccPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            database.DeleteInfo("account", "SubscriberNumber", ""+selectedAccount.getSubscriberNumber());
+            database.DeleteInfo("account", "SubscriberNumber", "" + selectedAccount.getSubscriberNumber());
             System.out.println("Deleted Account");
             new ConfigGUI();
             SwingUtilities.windowForComponent(thisPanel).dispose();

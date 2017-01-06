@@ -61,6 +61,8 @@ public class EditAccPanel extends JPanel {
         menuShowBtn.addActionListener(menuShowBtnHandler);
         MenuExtraBtnHandler extraBtnHandler = new MenuExtraBtnHandler();
         menuExtraBtn.addActionListener(extraBtnHandler);
+        MenuConfigBtnHandler configBtnHandler = new MenuConfigBtnHandler();
+        menuConfigBtn.addActionListener(configBtnHandler);
 
         //Setting background color for buttons
         menuConfigBtn.setBackground(Color.WHITE);//Is white because active
@@ -128,7 +130,6 @@ public class EditAccPanel extends JPanel {
         ConfirmBtnHandler confirmBtnHandler = new ConfirmBtnHandler();
         confirm.addActionListener(confirmBtnHandler);
 
-
         getAllAccounts();
 
         for (int i = 0; i < accounts.size(); i++) {
@@ -184,11 +185,21 @@ public class EditAccPanel extends JPanel {
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
-            class MenuExtraBtnHandler implements ActionListener
-    {
+
+    class MenuExtraBtnHandler implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             new ExtraGUI();
+            SwingUtilities.windowForComponent(thisPanel).dispose();
+        }
+    }
+                        
+        class MenuConfigBtnHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new ConfigGUI();
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
@@ -263,12 +274,19 @@ public class EditAccPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            database.updateAccInfo(selectedAccount.getSubscriberNumber() + "", nameField.getText(),
-                    streetField.getText(), postalCodeField.getText(),
-                    streetNumberField.getText(), cityField.getText(), birthdayField.getText());
-            System.out.println("Updated Account");
-            new ConfigGUI();
-            SwingUtilities.windowForComponent(thisPanel).dispose();
+            if (!nameField.getText().trim().equals("") && !streetField.getText().trim().equals("")
+                    && !postalCodeField.getText().trim().equals("") && !streetField.getText().trim().equals("")
+                    && !cityField.getText().trim().equals("") && !birthdayField.getText().trim().equals("")) {
+                database.updateAccInfo(selectedAccount.getSubscriberNumber() + "", nameField.getText(),
+                        streetField.getText(), postalCodeField.getText(),
+                        streetNumberField.getText(), cityField.getText(), birthdayField.getText());
+                System.out.println("Updated Account");
+                new ConfigGUI();
+                SwingUtilities.windowForComponent(thisPanel).dispose();
+            } else {
+                JOptionPane.showMessageDialog(thisPanel, "Please fill in all the required fields.",
+                        "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
 }

@@ -64,6 +64,8 @@ public class EditProfilePanel extends JPanel {
         menuShowBtn.addActionListener(menuShowBtnHandler);
         MenuExtraBtnHandler extraBtnHandler = new MenuExtraBtnHandler();
         menuExtraBtn.addActionListener(extraBtnHandler);
+            MenuConfigBtnHandler configBtnHandler = new MenuConfigBtnHandler();
+            menuConfigBtn.addActionListener(configBtnHandler);
 
         //Setting background color for buttons
         menuConfigBtn.setBackground(Color.WHITE);//Is white because active
@@ -109,7 +111,7 @@ public class EditProfilePanel extends JPanel {
 
         DropDownBtnHandler dropDownBtnHandler = new DropDownBtnHandler();
         subNumberBox.addActionListener(dropDownBtnHandler);
-        
+
         //Initializing textfields
         nameField = new JTextField(20);
         birthdayField = new JTextField(20);
@@ -174,12 +176,21 @@ public class EditProfilePanel extends JPanel {
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
-    
-    class MenuExtraBtnHandler implements ActionListener
-    {
+
+    class MenuExtraBtnHandler implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             new ExtraGUI();
+            SwingUtilities.windowForComponent(thisPanel).dispose();
+        }
+    }
+                        
+        class MenuConfigBtnHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new ConfigGUI();
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
@@ -274,11 +285,16 @@ public class EditProfilePanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            database.updateProfileInfo(selectedProfile.getProfileNumber() + "", nameField.getText(),
-                    birthdayField.getText());
-            System.out.println("Updated profile");
-            new ConfigGUI();
-            SwingUtilities.windowForComponent(thisPanel).dispose();
+            if (!nameField.getText().trim().equals("")) {
+                database.updateProfileInfo(selectedProfile.getProfileNumber() + "", nameField.getText(),
+                        birthdayField.getText());
+                System.out.println("Updated profile");
+                new ConfigGUI();
+                SwingUtilities.windowForComponent(thisPanel).dispose();
+            } else {
+                JOptionPane.showMessageDialog(thisPanel, "Please fill in all the required fields.",
+                        "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
 }

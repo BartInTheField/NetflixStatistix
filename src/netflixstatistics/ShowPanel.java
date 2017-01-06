@@ -16,6 +16,7 @@ class ShowPanel extends JPanel {
     private final NSButton menuAccBtn, menuFilmBtn, menuShowBtn, menuExtraBtn, menuConfigBtn;
     private JLabel titleStatic, accWatchedStatic, averageWatchedStatic;
     private JLabel title, accWatched, averageWatched;
+    private JLabel pointerShow;
     private JComboBox showBox, episodeBox;
     private DefaultComboBoxModel model = new DefaultComboBoxModel();
     private NSButton showStats;
@@ -94,6 +95,7 @@ class ShowPanel extends JPanel {
         titleStatic = new JLabel("Title:");
         accWatchedStatic = new JLabel("How many profiles have watched:");
         averageWatchedStatic = new JLabel("Average percentage of time watched:");
+        pointerShow = new JLabel("<html><span style='font-size:22; font-family: agency fb'>></span></html>");
 
         //Initializing database labels
         title = new JLabel("");
@@ -101,6 +103,7 @@ class ShowPanel extends JPanel {
         averageWatched = new JLabel("");
 
         //Setting label colors to white 
+        pointerShow.setForeground(Color.WHITE);
         titleStatic.setForeground(Color.WHITE);
         accWatchedStatic.setForeground(Color.WHITE);
         averageWatchedStatic.setForeground(Color.WHITE);
@@ -116,6 +119,7 @@ class ShowPanel extends JPanel {
         titleStatic.setBounds(50, 100, 40, 25);
         accWatchedStatic.setBounds(50, 125, 200, 25);
         averageWatchedStatic.setBounds(50, 150, 220, 25);
+        pointerShow.setBounds(36, 30, 10, 25);
 
         //Setting location of button
         showStats.setBounds(50, 180, 400, 25);
@@ -141,6 +145,8 @@ class ShowPanel extends JPanel {
 
         ShowDropDownHandler showDropDownHandler = new ShowDropDownHandler();
         showBox.addActionListener(showDropDownHandler);
+        EpiDropDownHandler epiDropDownHandler = new EpiDropDownHandler();
+        episodeBox.addActionListener(epiDropDownHandler);
         ButtonHandler handler = new ButtonHandler();
         showStats.addActionListener(handler);
 
@@ -149,6 +155,7 @@ class ShowPanel extends JPanel {
         content.add(episodeBox);
 
         //Adding labels in contentpanel
+        content.add(pointerShow);
         content.add(titleStatic);
         content.add(accWatchedStatic);
         content.add(averageWatchedStatic);
@@ -217,6 +224,7 @@ class ShowPanel extends JPanel {
             title.setText("");
             accWatched.setText("");
             averageWatched.setText("");
+            pointerShow.setText("");
 
             //Add all content to the show combobox
             for (int i = 0; i < contents.size(); i++) {
@@ -227,6 +235,14 @@ class ShowPanel extends JPanel {
             }
         }
     }
+    
+    class EpiDropDownHandler implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            title.setText("");
+            accWatched.setText("");
+            averageWatched.setText("");
+        }
+    }
 
     class ButtonHandler implements ActionListener {
 
@@ -234,7 +250,7 @@ class ShowPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             //Get title and display it
             for (int i = 0; i < contents.size(); i++) {
-                if (episodeBox.getSelectedItem().equals(contents.get(i).getContentID())) {
+                if (episodeBox.getSelectedItem().equals(contents.get(i).getSeasonCode())) {
                     title.setText(contents.get(i).getTitle());
                 }
             }

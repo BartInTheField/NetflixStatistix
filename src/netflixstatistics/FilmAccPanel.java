@@ -13,8 +13,8 @@ import javax.swing.*;
 
 class FilmAccPanel extends JPanel {
 
-    private List<Content> contents = new ArrayList<Content>();
-    private List<Seen> seens = new ArrayList<Seen>();
+    private List<Content> contents = new ArrayList<>();
+    private List<Seen> seens = new ArrayList<>();
     private DBConnect database;
     private final JPanel menu, content;
     private final BannerPanel banner;
@@ -93,10 +93,9 @@ class FilmAccPanel extends JPanel {
         content.setLayout(null);
 
         //Setting location of labels & textarea
-        profileNameLb.setBounds(50, 30, 400, 25);
-        filmsWatchedLb.setBounds(50, 55, 400, 25);
-//            films.setBounds(50, 80, 400, 130);
-        scrollPane.setBounds(50, 80, 400, 130);
+        profileNameLb.setBounds(50, 10, 400, 25);
+        filmsWatchedLb.setBounds(50, 35, 400, 25);
+        scrollPane.setBounds(50, 60, 400, 130);
         profileNameLb.setHorizontalAlignment(SwingConstants.CENTER);
         filmsWatchedLb.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -124,7 +123,9 @@ class FilmAccPanel extends JPanel {
                 }
             }
         }
-
+        if (films.getText().equals("")) {
+            films.setText("This profile hasn't seen any films just yet.");
+        }
         //Adding buttons & textarea in contentpanel
         content.add(profileNameLb);
         content.add(filmsWatchedLb);

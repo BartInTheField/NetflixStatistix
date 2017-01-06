@@ -98,7 +98,7 @@ class ShowAccPanel extends JPanel {
         showsWatched = new JLabel("Shows watched:");
         titleStatic = new JLabel("Title:");
         averageWatchedStatic = new JLabel("Percentage watched:");
-        pointerShow = new JLabel(">");
+        pointerShow = new JLabel("<html><span style='font-size:22; font-family: agency fb'>></span></html>");
 
         //Initializing database labels
         title = new JLabel("");
@@ -121,11 +121,11 @@ class ShowAccPanel extends JPanel {
         episodeBox.setBounds(50, 85, 400, 25);
 
         //Setting location of  static labelsa
-        showsWatched.setBounds(50, 35, 400, 10);
         profileNameLb.setBounds(50, 10, 400, 25);
+        showsWatched.setBounds(50, 35, 400, 10);
         titleStatic.setBounds(50, 115, 200, 25);
         averageWatchedStatic.setBounds(50, 140, 220, 25);
-        pointerShow.setBounds(40, 50, 10, 25);
+        pointerShow.setBounds(36, 50, 10, 25);
 
         //Setting location of  nonstatic labels
         title.setBounds(350, 115, 100, 25);
@@ -142,7 +142,7 @@ class ShowAccPanel extends JPanel {
         getAllContent();
         //Get all seen
         try {
-            String theQuery = "SELECT * FROM `seen` WHERE ProfileNumber = '"+profile.getProfileNumber()+"'";
+            String theQuery = "SELECT * FROM `seen` WHERE ProfileNumber = '" + profile.getProfileNumber() + "'";
             database.rs = database.st.executeQuery(theQuery);
             if (database.rs.last()) {
                 database.rowcount = database.rs.getRow();
@@ -158,7 +158,7 @@ class ShowAccPanel extends JPanel {
         } catch (Exception ex) {
             System.out.println("Error: " + ex);
         }
-        
+
         for (int i = 0; i < seens.size(); i++) {
             for (int j = 0; j < contents.size(); j++) {
                 if (seens.get(i).getProfileNumber() == profile.getProfileNumber()) {
@@ -284,15 +284,17 @@ class ShowAccPanel extends JPanel {
                         && episodeBox.getSelectedItem().equals(contents.get(i).getSeasonCode())) {
                     title.setText(contents.get(i).getTitle());
                     for (int j = 0; j < seens.size(); j++) {
-                        if(seens.get(j).getContentId() == contents.get(i).getContentID()){
-                                averageWatched.setText(seens.get(j).getPercentage()+"%");
-                            
-                            }
+                        if (seens.get(j).getContentId() == contents.get(i).getContentID()) {
+                            averageWatched.setText(seens.get(j).getPercentage() + "%");
+
+                        } else {
+                            averageWatched.setText("0.0%");
                         }
                     }
                 }
             }
         }
+    }
 
     //Database handlers
     public void getAllContent() {

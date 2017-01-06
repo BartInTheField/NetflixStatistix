@@ -143,6 +143,9 @@ class ExtraPanel extends JPanel {
                 }
             }
         }
+        if (accounts.getText().equals("")) {
+            accounts.setText("Currently there aren't any accounts with only 1 profile.");
+        }
 
         //Adding buttons & textarea in contentpanel
         content.add(accountsLb);

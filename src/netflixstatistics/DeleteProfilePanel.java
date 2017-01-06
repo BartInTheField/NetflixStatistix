@@ -64,6 +64,8 @@ public class DeleteProfilePanel extends JPanel {
         menuShowBtn.addActionListener(menuShowBtnHandler);
         MenuExtraBtnHandler extraBtnHandler = new MenuExtraBtnHandler();
         menuExtraBtn.addActionListener(extraBtnHandler);
+            MenuConfigBtnHandler configBtnHandler = new MenuConfigBtnHandler();
+            menuConfigBtn.addActionListener(configBtnHandler);
 
         //Setting background color for buttons
         menuConfigBtn.setBackground(Color.WHITE);//Is white because active
@@ -184,6 +186,15 @@ public class DeleteProfilePanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             new ExtraGUI();
+            SwingUtilities.windowForComponent(thisPanel).dispose();
+        }
+    }
+                        
+        class MenuConfigBtnHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new ConfigGUI();
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }

@@ -70,6 +70,8 @@ public class CreateSeenPanel extends JPanel {
         menuShowBtn.addActionListener(menuShowBtnHandler);
         MenuExtraBtnHandler extraBtnHandler = new MenuExtraBtnHandler();
         menuExtraBtn.addActionListener(extraBtnHandler);
+        MenuConfigBtnHandler configBtnHandler = new MenuConfigBtnHandler();
+        menuConfigBtn.addActionListener(configBtnHandler);
 
         //Setting background color for buttons
         menuConfigBtn.setBackground(Color.WHITE);//Is white because active
@@ -202,12 +204,21 @@ public class CreateSeenPanel extends JPanel {
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
-    
-    class MenuExtraBtnHandler implements ActionListener
-    {
+
+    class MenuExtraBtnHandler implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             new ExtraGUI();
+            SwingUtilities.windowForComponent(thisPanel).dispose();
+        }
+    }
+                        
+        class MenuConfigBtnHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new ConfigGUI();
             SwingUtilities.windowForComponent(thisPanel).dispose();
         }
     }
@@ -228,7 +239,7 @@ public class CreateSeenPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             JOptionPane.showMessageDialog(thisPanel, "The subscriber number should be the same in both "
                     + "comboboxes in order to create a 'seen'",
-                     "Information", JOptionPane.INFORMATION_MESSAGE);
+                    "Information", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -266,8 +277,8 @@ public class CreateSeenPanel extends JPanel {
             }
             while (database.rs.next()) {
                 accounts.add(new Account(Integer.parseInt(database.rs.getString("SubscriberNumber")),
-                         database.rs.getString("Name"), database.rs.getString("Street"),
-                         database.rs.getString("PostalCode"), Integer.parseInt(database.rs.getString("StreetNumber")),
+                        database.rs.getString("Name"), database.rs.getString("Street"),
+                        database.rs.getString("PostalCode"), Integer.parseInt(database.rs.getString("StreetNumber")),
                         database.rs.getString("City"), database.rs.getString("Birthday")));
             }
         } catch (Exception ex) {
@@ -285,8 +296,8 @@ public class CreateSeenPanel extends JPanel {
             }
             while (database.rs.next()) {
                 profiles.add(new Profile(Integer.parseInt(database.rs.getString("ProfileNumber")),
-                         Integer.parseInt(database.rs.getString("SubscriberNumber")), database.rs.getString("Name"),
-                         database.rs.getString("Birthday")));
+                        Integer.parseInt(database.rs.getString("SubscriberNumber")), database.rs.getString("Name"),
+                        database.rs.getString("Birthday")));
             }
         } catch (Exception ex) {
             System.out.println("Error: " + ex);
@@ -303,10 +314,10 @@ public class CreateSeenPanel extends JPanel {
             }
             while (database.rs.next()) {
                 contents.add(new Content(Integer.parseInt(database.rs.getString("ContentID")),
-                         database.rs.getString("Film"), database.rs.getString("TV_Show"),
-                         database.rs.getString("SeasonCode"), database.rs.getString("Title"), 
-                        Integer.parseInt(database.rs.getString("AgeCategory")), 
-                        database.rs.getString("Language"), database.rs.getString("Duration"), 
+                        database.rs.getString("Film"), database.rs.getString("TV_Show"),
+                        database.rs.getString("SeasonCode"), database.rs.getString("Title"),
+                        Integer.parseInt(database.rs.getString("AgeCategory")),
+                        database.rs.getString("Language"), database.rs.getString("Duration"),
                         database.rs.getString("Genre"), database.rs.getString("SimilarTo")));
             }
         } catch (Exception ex) {
@@ -335,23 +346,28 @@ public class CreateSeenPanel extends JPanel {
                         if (programBox.getSelectedItem().toString().equals(contents.get(k).getFilm())) {
                             contentID = contents.get(k).getContentID();
                         }
-                        if (programBox.getSelectedItem().toString().equals(contents.get(k).getTvShow() 
+                        if (programBox.getSelectedItem().toString().equals(contents.get(k).getTvShow()
                                 + " " + contents.get(k).getSeasonCode())) {
                             contentID = contents.get(k).getContentID();
                         }
                     }
                 }
             }
-            if (subNumberBox.getSelectedItem().toString().regionMatches(0, nameBox.getSelectedItem().toString(), 0, 4)) {
-                System.out.println("Created new seen");
-                database.createData("Seen", "SeenID ,ProfileNumber, SubscriberNumber, ContentID, Percentage",
-                        "'" + idField.getText() + "','" + profileNmbr + "','"
-                        + subNmbr + "','" + contentID + "','" + percentageField.getText() + "'");
-                new ConfigGUI();
-                SwingUtilities.windowForComponent(thisPanel).dispose();
+            if (!percentageField.getText().trim().equals("")) {
+                if (subNumberBox.getSelectedItem().toString().regionMatches(0, nameBox.getSelectedItem().toString(), 0, 4)) {
+                    System.out.println("Created new seen");
+                    database.createData("Seen", "SeenID ,ProfileNumber, SubscriberNumber, ContentID, Percentage",
+                            "'" + idField.getText() + "','" + profileNmbr + "','"
+                            + subNmbr + "','" + contentID + "','" + percentageField.getText() + "'");
+                    new ConfigGUI();
+                    SwingUtilities.windowForComponent(thisPanel).dispose();
+                } else {
+                    JOptionPane.showMessageDialog(thisPanel, "Subscriber numbers are not the same",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
             } else {
-                JOptionPane.showMessageDialog(thisPanel, "Subscriber numbers are not the same",
-                         "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(thisPanel, "Please fill in all the required fields.",
+                        "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         }
 

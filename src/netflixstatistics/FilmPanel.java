@@ -64,7 +64,7 @@ class FilmPanel extends JPanel {
         menuConfigBtn.addActionListener(configBtnHandler);
 
         //Initializing labels
-        nrOfUsersLb = new JLabel("How many users watched this movie 100%?");
+        nrOfUsersLb = new JLabel("How many users watched this film 100%?");
         nrOfUsers = new JLabel("");
 
         //Setting background color for buttons
