@@ -23,7 +23,7 @@ class ShowAccPanel extends JPanel {
     private final BannerPanel banner;
     private final NSButton menuAccBtn, menuFilmBtn, menuShowBtn, menuExtraBtn, menuConfigBtn;
     private JLabel profileNameLb, showsWatched, titleStatic, averageWatchedStatic;
-    private JLabel title, averageWatched, pointerShow;
+    private JLabel title, averageWatched;
     private JComboBox showBox, episodeBox;
     private NSButton showStats;
 
@@ -98,14 +98,12 @@ class ShowAccPanel extends JPanel {
         showsWatched = new JLabel("Shows watched:");
         titleStatic = new JLabel("Title:");
         averageWatchedStatic = new JLabel("Percentage watched:");
-        pointerShow = new JLabel("<html><span style='font-size:22; font-family: agency fb'>></span></html>");
 
         //Initializing database labels
         title = new JLabel("");
         averageWatched = new JLabel("");
 
         //Setting label colors to white 
-        pointerShow.setForeground(Color.WHITE);
         showsWatched.setForeground(Color.WHITE);
         profileNameLb.setForeground(Color.WHITE);
         titleStatic.setForeground(Color.WHITE);
@@ -125,7 +123,6 @@ class ShowAccPanel extends JPanel {
         showsWatched.setBounds(50, 35, 400, 10);
         titleStatic.setBounds(50, 115, 200, 25);
         averageWatchedStatic.setBounds(50, 140, 220, 25);
-        pointerShow.setBounds(36, 50, 10, 25);
 
         //Setting location of  nonstatic labels
         title.setBounds(350, 115, 100, 25);
@@ -194,7 +191,6 @@ class ShowAccPanel extends JPanel {
         content.add(showStats);
 
         //Adding labels in contentpanel
-        content.add(pointerShow);
         content.add(showsWatched);
         content.add(profileNameLb);
         content.add(titleStatic);
@@ -261,7 +257,6 @@ class ShowAccPanel extends JPanel {
             episodeBox.removeAllItems();
             title.setText("");
             averageWatched.setText("");
-            pointerShow.setText("");
             
             if (showBox.getItemAt(0).equals("- Select show -")) {
                 showBox.removeItemAt(0);
