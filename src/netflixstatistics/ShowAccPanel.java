@@ -140,6 +140,11 @@ class ShowAccPanel extends JPanel {
         averageWatched.setHorizontalAlignment(SwingConstants.RIGHT);
 
         getAllContent();
+        String selectShowMsg = "- Select show -";
+        String selectEpiMsg = "- Select episode -";
+
+        showBox.addItem(selectShowMsg);
+        episodeBox.addItem(selectEpiMsg);
         //Get all seen
         try {
             String theQuery = "SELECT * FROM `seen` WHERE ProfileNumber = '" + profile.getProfileNumber() + "'";
@@ -257,6 +262,10 @@ class ShowAccPanel extends JPanel {
             title.setText("");
             averageWatched.setText("");
             pointerShow.setText("");
+            
+            if (showBox.getItemAt(0).equals("- Select show -")) {
+                showBox.removeItemAt(0);
+            }
 
             for (int i = 0; i < contents.size(); i++) {
                 if (showBox.getSelectedItem().equals(contents.get(i).getTvShow())) {

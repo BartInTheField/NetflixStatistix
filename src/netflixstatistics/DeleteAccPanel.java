@@ -87,7 +87,7 @@ public class DeleteAccPanel extends JPanel {
         content.setBorder(border);
 
         //setting GridLayout 
-        content.setLayout(new GridLayout(7, 2, 20, 6));
+        content.setLayout(new GridLayout(8, 2, 20, 6));
 
         //Initializing labels
         subNumber = new JLabel("Subscriber number: ");
@@ -157,6 +157,8 @@ public class DeleteAccPanel extends JPanel {
         content.add(streetNumberField);
         content.add(city);
         content.add(cityField);
+        content.add(birthday);
+        content.add(birthdayField);
         content.add(cancel);
         content.add(confirm);
 

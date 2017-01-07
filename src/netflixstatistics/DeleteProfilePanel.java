@@ -24,8 +24,8 @@ public class DeleteProfilePanel extends JPanel {
     private JPanel menu, content;
     private BannerPanel banner;
     private NSButton menuAccBtn, menuFilmBtn, menuShowBtn, menuExtraBtn, menuConfigBtn;
-    private JTextField nameField, birthdayField;
-    private JLabel subNumber, name, birthday, profileSubscriberName, profileSubscriberNameText;
+    private JTextField profileSubscriberName, nameField, birthdayField;
+    private JLabel subNumber, name, birthday, profileSubscriberNameText;
     private NSButton cancel, confirm;
     private JComboBox subNumberBox;
 
@@ -96,14 +96,13 @@ public class DeleteProfilePanel extends JPanel {
         subNumber = new JLabel("Profile Number: ");
         name = new JLabel("Profile Name:");
         birthday = new JLabel("Birthday: ");
-        profileSubscriberName = new JLabel("");
+        profileSubscriberName = new JTextField("");
         profileSubscriberNameText = new JLabel("Subscriber Name: ");
 
         //Setting text white
         subNumber.setForeground(Color.WHITE);
         name.setForeground(Color.WHITE);
         birthday.setForeground(Color.WHITE);
-        profileSubscriberName.setForeground(Color.WHITE);
         profileSubscriberNameText.setForeground(Color.WHITE);
 
         //Initializing combobox
@@ -117,6 +116,7 @@ public class DeleteProfilePanel extends JPanel {
         birthdayField = new JTextField(20);
         
         //Setting editable false
+        profileSubscriberName.setEditable(false);
         nameField.setEditable(false);
         birthdayField.setEditable(false);
 

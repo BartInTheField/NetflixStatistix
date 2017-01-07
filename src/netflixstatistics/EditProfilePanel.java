@@ -24,8 +24,8 @@ public class EditProfilePanel extends JPanel {
     private JPanel menu, content;
     private BannerPanel banner;
     private NSButton menuAccBtn, menuFilmBtn, menuShowBtn, menuExtraBtn, menuConfigBtn;
-    private JTextField nameField, birthdayField;
-    private JLabel subNumber, name, birthday, profileSubscriberName, profileSubscriberNameText;
+    private JTextField profileSubscriberName, nameField, birthdayField;
+    private JLabel subNumber, name, birthday, profileSubscriberNameText;
     private NSButton cancel, confirm;
     private JComboBox subNumberBox;
 
@@ -96,14 +96,12 @@ public class EditProfilePanel extends JPanel {
         subNumber = new JLabel("Profile Number: ");
         name = new JLabel("Profile Name:");
         birthday = new JLabel("Birthday: ");
-        profileSubscriberName = new JLabel("");
         profileSubscriberNameText = new JLabel("Subscriber Name: ");
 
         //Setting text white
         subNumber.setForeground(Color.WHITE);
         name.setForeground(Color.WHITE);
         birthday.setForeground(Color.WHITE);
-        profileSubscriberName.setForeground(Color.WHITE);
         profileSubscriberNameText.setForeground(Color.WHITE);
 
         //Initializing combobox
@@ -113,6 +111,8 @@ public class EditProfilePanel extends JPanel {
         subNumberBox.addActionListener(dropDownBtnHandler);
 
         //Initializing textfields
+        profileSubscriberName = new JTextField("");
+        profileSubscriberName.setEditable(false);
         nameField = new JTextField(20);
         birthdayField = new JTextField(20);
 
