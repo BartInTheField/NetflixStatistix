@@ -290,9 +290,6 @@ class ShowAccPanel extends JPanel {
                     for (int j = 0; j < seens.size(); j++) {
                         if (seens.get(j).getContentId() == contents.get(i).getContentID()) {
                             averageWatched.setText(seens.get(j).getPercentage() + "%");
-
-                        } else {
-                            averageWatched.setText("0.0%");
                         }
                     }
                 }
