@@ -131,7 +131,6 @@ class ExtraPanel extends JPanel {
             for (int j = 0; j < profiles.size(); j++) {
                 if (accountlist.get(i).getSubscriberNumber() == profiles.get(j).getSubscriberNumber()) {
                     count++;
-                    System.out.println(count);
                     if (count == 1) {
                         accounts.append(accountlist.get(i).getSubscriberNumber() + "  "
                                 + accountlist.get(i).getName() + "\n");
